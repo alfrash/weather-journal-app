@@ -6,7 +6,8 @@ const apiKey = "da21abb861402a1256e4fa2b1692c1e5";
 
 // Create a new date instance dynamically with JS
 let d = new Date();
-let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
+let newDate = (d.getMonth()+1) + "." + d.getDate() + "." + d.getFullYear();
+
 
 const userInfo = document.getElementById("userInfo");
 
@@ -24,7 +25,7 @@ function performAction(e) {
   getWeatherData(baseUrl, apiKey, zipCode)
     .then(function (data) {
       postData("/add", {
-        temp: convertKelvinToCelsius(data.main.temp),
+        temp: data.main.temp,
         date: newDate,
         content: content,
       });
@@ -40,7 +41,7 @@ function performAction(e) {
 /* Function to GET Web API Data*/
 
 const getWeatherData = async (baseUrl, apiKey, zipCode) => {
-  const res = await fetch(`${baseUrl}?q=${zipCode}&appid=${apiKey}`);
+  const res = await fetch(`${baseUrl}?q=${zipCode}&units=metric&appid=${apiKey}`);
 
   try {
     const data = await res.json();
@@ -87,11 +88,4 @@ const updateUI = async () => {
   }
 };
 
-/* Function to GET Project Data */
-function convertKelvinToCelsius(kelvin) {
-  if (kelvin < 0) {
-    return "below absolute zero (0 K)";
-  } else {
-    return (kelvin - 273.15).toFixed(2);
-  }
-}
+

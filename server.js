@@ -25,6 +25,7 @@ app.post('/add', (req,res) =>{
     projectData['date'] = req.body.date;
     projectData['content'] = req.body.content;
     res.send(projectData);
+    
 });
 
 
